@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #-------------------------------------------------------------------------------
 # Name:        Object bounding box label tool
 # Purpose:     Label object bboxes for ImageNet Detection data
@@ -41,7 +42,7 @@ class LabelTool():
         self.imagename = ''
         self.labelfilename = ''
         self.tkimg = None
-        self.possible_filetypes = ['*.JPEG', '*.JPG', '*.jpeg', '*.jpg']
+        self.possible_filetypes = ['*.JPEG', '*.JPG', '*.jpeg', '*.jpg', '*.png', '*.PNG']
 
         # initialize mouse state
         self.STATE = {}
@@ -127,9 +128,9 @@ class LabelTool():
     def loadDir(self):
         s = self.entry.get()
         self.parent.focus()
-        self.category = int(s)
+        self.category = s
         # get image list
-        self.imageDir = os.path.join(r'./Images', '%03d' %(self.category))
+        self.imageDir = os.path.join(r'./Images', self.category)
         if not os.path.isdir(self.imageDir):
             tkMessageBox.showerror("Error!", message = "The specified directory " + self.imageDir + " doesn't exist!")
             return
@@ -145,12 +146,12 @@ class LabelTool():
         self.total = len(self.imageList)
 
          # set up output dir
-        self.outDir = os.path.join(r'./Labels', '%03d' %(self.category))
+        self.outDir = os.path.join(r'./Labels', self.category)
         if not os.path.exists(self.outDir):
             os.mkdir(self.outDir)
 
         # load example bboxes
-        self.egDir = os.path.join(r'./Examples', '%03d' %(self.category))
+        self.egDir = os.path.join(r'./Examples', self.category)
         if not os.path.exists(self.egDir):
             print "warning, no example images found in the examples directory."
             filelist = self.loadFiles(self.egDir, self.possible_filetypes)
